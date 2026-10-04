@@ -36,7 +36,10 @@
   },
   "main": "electron/main.cjs",
   "description": "Fast, offline ONNX model visualizer",
-  "author": "sabari245",
+  "author": {
+    "name": "sabari245",
+    "email": "64523847+sabari245@users.noreply.github.com"
+  },
   "homepage": "https://github.com/sabari245/onnxviz",
   "repository": "github:sabari245/onnxviz",
   "license": "MIT",
@@ -73,7 +76,8 @@
           "name": "ONNX model",
           "mimeType": "application/x-onnx"
         }
-      ]
+      ],
+      "maintainer": "sabari245 <64523847+sabari245@users.noreply.github.com>"
     },
     "deb": {
       "depends": [

@@ -9,6 +9,28 @@ No server and no Python are needed to *view* a model. A small Python launcher is
 > stub builds. Sections that describe the app reflect the source tree at the time of writing and have not been
 > verified in a running build — run `make test` and open the app to confirm.
 
+## Install (Linux x86_64)
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/sabari245/onnxviz/main/setup.sh | bash
+```
+
+The script detects your system and installs the [latest release](https://github.com/sabari245/onnxviz/releases/latest):
+a `.deb` via `apt` on Debian/Ubuntu-family distros (asks for sudo), otherwise a user-local AppImage in `~/.local`
+(no root; adds a launcher entry and the `onnxviz` command). Downloads are checked against the release's SHA-256 sums.
+
+Then run `onnxviz model.onnx`, or open **ONNX Viz** from your app launcher.
+
+```bash
+# options: pin a version, force the no-root AppImage install, or remove it again
+curl -fsSL https://raw.githubusercontent.com/sabari245/onnxviz/main/setup.sh | bash -s -- --version v0.1.1
+curl -fsSL https://raw.githubusercontent.com/sabari245/onnxviz/main/setup.sh | bash -s -- --appimage
+curl -fsSL https://raw.githubusercontent.com/sabari245/onnxviz/main/setup.sh | bash -s -- --uninstall
+```
+
+Prefer to do it by hand? Grab the `.deb`, `.AppImage`, `.tar.gz` or the single-file `standalone.html` from the
+[Releases page](https://github.com/sabari245/onnxviz/releases).
+
 ## Quickstart
 
 ### Web app

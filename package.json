@@ -1,5 +1,5 @@
 {
-  "name": "onnxviz",
+  "name": "bonnx",
   "version": "1.0.0",
   "private": true,
   "type": "module",
@@ -40,13 +40,13 @@
     "name": "sabari245",
     "email": "64523847+sabari245@users.noreply.github.com"
   },
-  "homepage": "https://github.com/sabari245/onnxviz",
-  "repository": "github:sabari245/onnxviz",
+  "homepage": "https://github.com/sabari245/bonnx",
+  "repository": "github:sabari245/bonnx",
   "license": "MIT",
   "build": {
-    "appId": "io.github.sabari245.onnxviz",
-    "productName": "ONNX Viz",
-    "executableName": "onnxviz",
+    "appId": "io.github.sabari245.bonnx",
+    "productName": "Bonnx",
+    "executableName": "bonnx",
     "directories": {
       "output": "release",
       "buildResources": "build"
@@ -87,6 +87,6 @@
         "libasound2"
       ]
     },
-    "artifactName": "onnxviz-${version}-${arch}.${ext}"
+    "artifactName": "bonnx-${version}-${arch}.${ext}"
   }
 }

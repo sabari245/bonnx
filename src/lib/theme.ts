@@ -1,5 +1,5 @@
 export type Theme = "light" | "dark" | "system";
-const KEY = "onnxviz-theme";
+const KEY = "bonnx-theme";
 let current: Theme = "system";
 
 function read(): Theme {

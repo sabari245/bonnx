@@ -118,7 +118,7 @@ window.addEventListener("themechange", () => themeBtn.replaceChildren(icon(resol
 
 document.getElementById("app")!.append(
   h("div", { class: "mx-auto flex max-w-5xl flex-col gap-10 px-6 py-8" },
-    h("header", { class: "flex items-center justify-between" }, h("div", null, h("h1", { class: "text-2xl font-semibold tracking-tight" }, "onnxviz UI kit"), h("p", { class: "text-muted-foreground text-sm" }, "shadcn/ui re-implemented in vanilla TypeScript · Tailwind v4")), themeBtn),
+    h("header", { class: "flex items-center justify-between" }, h("div", null, h("h1", { class: "text-2xl font-semibold tracking-tight" }, "bonnx UI kit"), h("p", { class: "text-muted-foreground text-sm" }, "shadcn/ui re-implemented in vanilla TypeScript · Tailwind v4")), themeBtn),
     section("Buttons", buttons), section("Badges", badges), section("Form controls", form),
     section("Toggle groups", row(tg.el, tgm.el)), section("Tabs", tabsCtl.el),
     section("Breadcrumb", breadcrumb([{ label: "main" }, { label: "If_12 · then_branch" }, { label: "Loop_3 · body" }])),

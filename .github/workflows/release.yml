@@ -44,10 +44,10 @@ jobs:
           SINGLE=1 bunx vite build --outDir dist-single
           bunx electron-builder --linux -c.extraMetadata.version="$VERSION" --publish never
       - name: Build standalone single-file viewer
-        run: cp dist-single/index.html "release/onnxviz-${GITHUB_REF_NAME#v}-standalone.html"
+        run: cp dist-single/index.html "release/bonnx-${GITHUB_REF_NAME#v}-standalone.html"
       - name: Checksums
         working-directory: release
-        run: sha256sum onnxviz-* > SHA256SUMS.txt
+        run: sha256sum bonnx-* > SHA256SUMS.txt
       - uses: softprops/action-gh-release@v2
         with:
           generate_release_notes: true

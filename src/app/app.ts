@@ -30,7 +30,7 @@ interface Settings {
   grid: boolean;
   inspector: boolean;
 }
-const SKEY = "onnxviz-settings";
+const SKEY = "bonnx-settings";
 function loadSettings(): Settings {
   const d: Settings = { scene: { ...defaultSceneOptions }, color: "op", grid: true, inspector: true };
   try {
@@ -81,7 +81,7 @@ export class App {
     addEventListener("themechange", () => this.refreshThemeButton());
     const qs = new URLSearchParams(location.search);
     const emb = loadEmbedded();
-    const desk = window.onnxvizDesktop;
+    const desk = window.bonnxDesktop;
     if (desk) {
       desk.onOpenPath((p) => void this.openInput(() => loadFromDesktopPath(p)).catch((e) => this.fail(e)));
       const first = await desk.ready();
@@ -132,7 +132,7 @@ export class App {
     this.header = h("header", { class: "bg-background/95 relative z-40 flex h-12 shrink-0 items-center gap-2 border-b px-3 backdrop-blur" },
       h("div", { class: "flex shrink-0 items-center gap-2" },
         h("div", { class: "bg-primary text-primary-foreground flex size-7 shrink-0 items-center justify-center rounded-md" }, icon(Network, "size-4")),
-        h("span", { class: "hidden text-sm font-semibold tracking-tight whitespace-nowrap sm:block" }, "ONNX Viz")),
+        h("span", { class: "hidden text-sm font-semibold tracking-tight whitespace-nowrap sm:block" }, "Bonnx")),
       h("div", { class: "bg-border mx-1 hidden h-5 w-px sm:block" }), this.titleEl, this.crumb,
       h("div", { class: "flex-1" }), searchBtn, searchIcon, this.colorSel.el, viewBtn, zoom, exportBtn, infoBtn, panelBtn, helpBtn, themeBtn, openBtn);
 
@@ -154,7 +154,7 @@ export class App {
 
     this.viewer = new GraphViewer(this.stage, { colorMode: s.color, showGrid: s.grid });
     this.minimap = new Minimap(this.miniHost, this.viewer, { maxWidth: 150, maxHeight: 230 });
-    this.side = sheet({ title: "Inspector", mount: this.main, width: 400, storageKey: "onnxviz-side", onOpenChange: (o) => this.onSideChange(o), onResize: (w) => this.viewer.setInsets({ right: w }) });
+    this.side = sheet({ title: "Inspector", mount: this.main, width: 400, storageKey: "bonnx-side", onOpenChange: (o) => this.onSideChange(o), onResize: (w) => this.viewer.setInsets({ right: w }) });
     this.side.setTitle("Inspector");
     this.bindViewer();
     this.palette = commandDialog({ placeholder: "Search nodes, tensors, operators…", filter: false, maxItems: 120, onQuery: (q) => this.runSearch(q), onSelect: (it) => it.onSelect?.(it) });
@@ -186,7 +186,7 @@ export class App {
     this.legendEl.classList.toggle("hidden", empty);
     for (const b of this.toolsEnabled) b.disabled = empty;
     this.colorSel.el.disabled = empty;
-    if (empty) { this.side.close(); this.titleEl.replaceChildren(); this.crumb.replaceChildren(); document.title = "ONNX Viz"; }
+    if (empty) { this.side.close(); this.titleEl.replaceChildren(); this.crumb.replaceChildren(); document.title = "Bonnx"; }
   }
 
   /* ═══════════════════════ loading ═══════════════════════ */
@@ -335,7 +335,7 @@ export class App {
 
   private renderTitle(): void {
     const m = this.model!.meta;
-    document.title = `${m.file} – ONNX Viz`;
+    document.title = `${m.file} – Bonnx`;
     this.titleEl.replaceChildren(h("span", { class: "max-w-56 truncate text-sm font-medium", title: m.file }, m.file),
       badge(`${fmtCount(m.nodeCount)} nodes`, { variant: "secondary", class: "hidden lg:inline-flex" }));
     this.titleEl.lastElementChild?.setAttribute("data-stat", "");

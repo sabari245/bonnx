@@ -1,9 +1,9 @@
-# onnxviz
+# bonnx
 
 An ONNX model viewer that runs entirely in the browser. Open a model by drag and drop, file picker or URL; it is
 parsed in a Web Worker and drawn on a canvas, with per-weight statistics, subgraph navigation and SVG/PNG export.
 No server and no Python are needed to *view* a model. A small Python launcher is included for the
-`onnxviz model.onnx` workflow and for producing one self-contained HTML file.
+`bonnx model.onnx` workflow and for producing one self-contained HTML file.
 
 > Status of this README: the web app (`src/`) is built by several people/tracks; the Python launcher was tested against
 > stub builds. Sections that describe the app reflect the source tree at the time of writing and have not been
@@ -12,24 +12,24 @@ No server and no Python are needed to *view* a model. A small Python launcher is
 ## Install (Linux x86_64)
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/sabari245/onnxviz/main/setup.sh | bash
+curl -fsSL https://raw.githubusercontent.com/sabari245/bonnx/main/setup.sh | bash
 ```
 
-The script detects your system and installs the [latest release](https://github.com/sabari245/onnxviz/releases/latest):
+The script detects your system and installs the [latest release](https://github.com/sabari245/bonnx/releases/latest):
 a `.deb` via `apt` on Debian/Ubuntu-family distros (asks for sudo), otherwise a user-local AppImage in `~/.local`
-(no root; adds a launcher entry and the `onnxviz` command). Downloads are checked against the release's SHA-256 sums.
+(no root; adds a launcher entry and the `bonnx` command). Downloads are checked against the release's SHA-256 sums.
 
-Then run `onnxviz model.onnx`, or open **ONNX Viz** from your app launcher.
+Then run `bonnx model.onnx`, or open **Bonnx** from your app launcher.
 
 ```bash
 # options: pin a version, force the no-root AppImage install, or remove it again
-curl -fsSL https://raw.githubusercontent.com/sabari245/onnxviz/main/setup.sh | bash -s -- --version v0.1.1
-curl -fsSL https://raw.githubusercontent.com/sabari245/onnxviz/main/setup.sh | bash -s -- --appimage
-curl -fsSL https://raw.githubusercontent.com/sabari245/onnxviz/main/setup.sh | bash -s -- --uninstall
+curl -fsSL https://raw.githubusercontent.com/sabari245/bonnx/main/setup.sh | bash -s -- --version v0.1.1
+curl -fsSL https://raw.githubusercontent.com/sabari245/bonnx/main/setup.sh | bash -s -- --appimage
+curl -fsSL https://raw.githubusercontent.com/sabari245/bonnx/main/setup.sh | bash -s -- --uninstall
 ```
 
 Prefer to do it by hand? Grab the `.deb`, `.AppImage`, `.tar.gz` or the single-file `standalone.html` from the
-[Releases page](https://github.com/sabari245/onnxviz/releases).
+[Releases page](https://github.com/sabari245/bonnx/releases).
 
 ## Quickstart
 
@@ -47,11 +47,11 @@ The page also takes `?url=<model url>` (and `&external=<manifest url>` for exter
 
 ```bash
 make build                                   # once; the launcher serves dist/
-PYTHONPATH=python python -m onnxviz model.onnx          # serve on http://127.0.0.1:8080 and open the browser
-PYTHONPATH=python python -m onnxviz models/ --port 9000 # a directory: every .onnx / .onnx.prototxt in it
+PYTHONPATH=python python -m bonnx model.onnx          # serve on http://127.0.0.1:8080 and open the browser
+PYTHONPATH=python python -m bonnx models/ --port 9000 # a directory: every .onnx / .onnx.prototxt in it
 ```
 
-After `make package && pip install ./python` the same thing is just `onnxviz model.onnx` (the build is bundled
+After `make package && pip install ./python` the same thing is just `bonnx model.onnx` (the build is bundled
 into the package; the package itself has no dependencies).
 
 | Option | |
@@ -73,11 +73,11 @@ rejected (DNS-rebinding protection).
 
 ```bash
 make single                                  # once: dist-single/index.html with everything inlined
-make viz MODEL=model.onnx OUT=model.html     # == python -m onnxviz model.onnx --out model.html
+make viz MODEL=model.onnx OUT=model.html     # == python -m bonnx model.onnx --out model.html
 ```
 
 The file opens offline by double-click and can be mailed or attached to a ticket. Mechanism: the model is base64-encoded
-(streamed, in chunks) into a classic `<script>window.__ONNXVIZ_EMBED__={"name":…,"size":…,"b64":"…"};</script>` placed
+(streamed, in chunks) into a classic `<script>window.__BONNX_EMBED__={"name":…,"size":…,"b64":"…"};</script>` placed
 right after `<head>`; the app finds it on startup (`loadEmbedded()` in `src/app/loader.ts`). Limits: models above 200 MB
 are refused unless `--force`, and above ~380 MB always (browsers cap string length at ~512M characters). External-data
 files are not embedded — serve those models instead.
@@ -85,11 +85,11 @@ files are not embedded — serve those models instead.
 ### Python API
 
 ```python
-import onnxviz
-onnxviz.show("model.onnx")                  # path, bytes, or an onnx.ModelProto (serialized in memory)
-srv = onnxviz.show(model, block=False)      # background thread; srv.page_url(), srv.stop()
-onnxviz.save_html(model, "model.html")      # single-file viewer
-onnxviz.display(model)                      # Jupyter: IFrame on a free localhost port (needs IPython)
+import bonnx
+bonnx.show("model.onnx")                  # path, bytes, or an onnx.ModelProto (serialized in memory)
+srv = bonnx.show(model, block=False)      # background thread; srv.page_url(), srv.stop()
+bonnx.save_html(model, "model.html")      # single-file viewer
+bonnx.display(model)                      # Jupyter: IFrame on a free localhost port (needs IPython)
 ```
 
 `onnx` is imported only if you pass it a `ModelProto`.
@@ -143,7 +143,7 @@ src/onnx/                    protobuf reader, ONNX/text/JSON decoding, graph bui
 src/workers/                 model.worker (owns the model bytes; answers stats/slice RPC), layout.worker (dagre)
 src/render/                  scene building, canvas viewer, minimap, SVG/PNG export
 src/ui/, src/styles/         shadcn-style vanilla components on Tailwind v4, design tokens (light/dark)
-python/onnxviz/              launcher: static + Range server, single-file embedder, Python API
+python/bonnx/              launcher: static + Range server, single-file embedder, Python API
 ```
 
 The main thread holds only a light `ModelView` (src/onnx/types.ts); tensor data stays in the worker and is fetched as
@@ -164,7 +164,7 @@ bun run typecheck
 
 | | |
 |---|---|
-| Open at runtime (drag-drop, dialog, URL, local server via `onnxviz`) | ✅ |
+| Open at runtime (drag-drop, dialog, URL, local server via `bonnx`) | ✅ |
 | Subgraphs (If/Loop/Scan) and local functions, click-through | ✅ |
 | Tensor-valued / graph-valued attributes, sparse initializers, sequence/map types | ✅ |
 | Weight views: statistics, histogram, data table | ✅ |
@@ -177,7 +177,7 @@ bun run typecheck
 | Per-weight statistics, NaN/Inf audit | ✅ (not in Netron) |
 | Other formats (TFLite, PyTorch, Core ML, OpenVINO, Keras, GGUF, …) | ❌ ONNX only |
 | ORT (FlatBuffers) models | ❌ rejected with a message |
-| Desktop app (Electron/Tauri), PWA | ❌ use the web app or `onnxviz` |
+| Desktop app (Electron/Tauri), PWA | ❌ use the web app or `bonnx` |
 | Per-layer accuracy comparison (old `build_viewer`) | ❌ not ported |
 
 ## Limitations
@@ -195,7 +195,7 @@ bun run typecheck
   `bun install --registry=https://registry.npmmirror.com` and rewrites the lockfile URLs back to `registry.npmjs.org`
   (`sed -i 's#https://registry.npmmirror.com/#https://registry.npmjs.org/#g' bun.lock`).
 - **graphviz is no longer needed.** Layout is done with dagre in the browser; the old `dot` / micromamba setup can be dropped.
-- **`onnxviz: error: the web app is not built`** — run `make build`, pass `--dist DIR`, or install a package made with `make package`.
+- **`bonnx: error: the web app is not built`** — run `make build`, pass `--dist DIR`, or install a package made with `make package`.
 - **`the single-file web build is missing`** — run `make single`.
 - **Port in use** — the launcher picks the next free port and prints it.
 
@@ -203,9 +203,9 @@ bun run typecheck
 
 ```bash
 bun run desktop        # build + run in Electron
-bun run desktop:dist   # builds release/onnxviz-<ver>-x86_64.AppImage, .deb and .tar.gz
+bun run desktop:dist   # builds release/bonnx-<ver>-x86_64.AppImage, .deb and .tar.gz
 ```
 
-Install: `chmod +x onnxviz-*.AppImage && ./onnxviz-*.AppImage`, or `sudo apt install ./onnxviz-*.deb`
-(the deb registers `.onnx` file association; `onnxviz model.onnx` opens a model, and a second
+Install: `chmod +x bonnx-*.AppImage && ./bonnx-*.AppImage`, or `sudo apt install ./bonnx-*.deb`
+(the deb registers `.onnx` file association; `bonnx model.onnx` opens a model, and a second
 invocation reuses the running window). External-data files next to the model are loaded automatically.

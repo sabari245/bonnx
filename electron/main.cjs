@@ -40,7 +40,7 @@ function send(file) {
 function createWindow() {
   win = new BrowserWindow({
     width: 1440, height: 900, minWidth: 720, minHeight: 480,
-    title: "ONNX Viz", backgroundColor: nativeTheme.shouldUseDarkColors ? "#0a0a0a" : "#ffffff",
+    title: "Bonnx", backgroundColor: nativeTheme.shouldUseDarkColors ? "#0a0a0a" : "#ffffff",
     icon: path.join(__dirname, "..", "build", "icon.png"),
     webPreferences: { preload: path.join(__dirname, "preload.cjs"), contextIsolation: true, sandbox: true, nodeIntegration: false },
   });

@@ -1,6 +1,6 @@
 {
   "irVersion": "10",
-  "producerName": "onnxviz-tests",
+  "producerName": "bonnx-tests",
   "producerVersion": "1.0",
   "graph": {
     "node": [

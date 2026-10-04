@@ -4,11 +4,11 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from onnxviz._sources import ModelSource
-from onnxviz.server import VizServer
+from bonnx._sources import ModelSource
+from bonnx.server import VizServer
 
 STUB_INDEX = "<!doctype html><html><head><title>stub</title></head><body>app</body></html>"
-SINGLE_INDEX = ('<!doctype html><html lang="en"><head><meta charset="utf-8"><title>onnxviz</title>'
+SINGLE_INDEX = ('<!doctype html><html lang="en"><head><meta charset="utf-8"><title>bonnx</title>'
                 '<script type="module">console.log("app")</script></head><body></body></html>')
 
 

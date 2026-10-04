@@ -3,13 +3,13 @@ import json
 import re
 import unittest
 
-from onnxviz._sources import ModelSource
-from onnxviz.embed import EmbedError, inject_position, write_embedded_html
+from bonnx._sources import ModelSource
+from bonnx.embed import EmbedError, inject_position, write_embedded_html
 from support import SINGLE_INDEX, TmpCase
 
 
 def extract(html: str) -> dict:
-    m = re.search(r"<script>window\.__ONNXVIZ_EMBED__=(\{.*?\});</script>", html, re.S)
+    m = re.search(r"<script>window\.__BONNX_EMBED__=(\{.*?\});</script>", html, re.S)
     assert m, "embed script not found"
     return json.loads(m.group(1))
 
@@ -42,8 +42,8 @@ class Embed(TmpCase):
 
     def test_script_goes_before_the_app_script_and_page_is_intact(self):
         html = self.embed(ModelSource("m.onnx", data=b"abc"))
-        self.assertLess(html.index("__ONNXVIZ_EMBED__"), html.index('<script type="module">'))
-        self.assertTrue(html.startswith('<!doctype html><html lang="en"><head><script>window.__ONNXVIZ_EMBED__'))
+        self.assertLess(html.index("__BONNX_EMBED__"), html.index('<script type="module">'))
+        self.assertTrue(html.startswith('<!doctype html><html lang="en"><head><script>window.__BONNX_EMBED__'))
         self.assertTrue(html.endswith('console.log("app")</script></head><body></body></html>'))
 
     def test_inject_positions(self):
@@ -58,7 +58,7 @@ class Embed(TmpCase):
 
     def test_templates_without_head(self):
         html = self.embed(ModelSource("m.onnx", data=b"xyz"), text="<title>t</title><script>app()</script>")
-        self.assertLess(html.index("__ONNXVIZ_EMBED__"), html.index("app()"))
+        self.assertLess(html.index("__BONNX_EMBED__"), html.index("app()"))
         self.assertEqual(base64.b64decode(extract(html)["b64"]), b"xyz")
 
     def test_hostile_name_cannot_break_out_of_the_script(self):

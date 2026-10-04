@@ -18,7 +18,7 @@ def save(model, name):
 
 
 def mk(graph, opsets=None, **kw):
-    return h.make_model(graph, opset_imports=opsets or OPS, producer_name="onnxviz-tests", producer_version="1.0", **kw)
+    return h.make_model(graph, opset_imports=opsets or OPS, producer_name="bonnx-tests", producer_version="1.0", **kw)
 
 
 f32 = lambda name, shape: h.make_tensor_value_info(name, TP.FLOAT, shape)

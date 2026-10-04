@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
-# onnxviz installer — detects your system, downloads the latest release and installs it.
-#   curl -fsSL https://raw.githubusercontent.com/sabari245/onnxviz/main/setup.sh | bash
+# bonnx installer — detects your system, downloads the latest release and installs it.
+#   curl -fsSL https://raw.githubusercontent.com/sabari245/bonnx/main/setup.sh | bash
 # Options (pass after `bash -s --` when piping):
 #   --version vX.Y.Z   install a specific release instead of the latest
 #   --appimage         force the user-local AppImage install (no root needed)
 #   --uninstall        remove what this script installed
 set -euo pipefail
 
-REPO="sabari245/onnxviz"
+REPO="sabari245/bonnx"
 VERSION="latest"
 FORCE_APPIMAGE=0
 UNINSTALL=0
@@ -29,16 +29,16 @@ have() { command -v "$1" >/dev/null 2>&1; }
 if [ -t 2 ]; then PROG="--progress-bar"; else PROG="-sS"; fi
 
 BIN_DIR="${HOME}/.local/bin"
-APP_DIR="${HOME}/.local/share/onnxviz"
+APP_DIR="${HOME}/.local/share/bonnx"
 DESKTOP_DIR="${HOME}/.local/share/applications"
 ICON_DIR="${HOME}/.local/share/icons/hicolor/512x512/apps"
 
 if [ "$UNINSTALL" = 1 ]; then
-  if have dpkg && dpkg -s onnxviz >/dev/null 2>&1; then
-    say "Removing the onnxviz package"
-    if [ "$(id -u)" -eq 0 ]; then apt-get remove -y onnxviz; else sudo apt-get remove -y onnxviz; fi
+  if have dpkg && dpkg -s bonnx >/dev/null 2>&1; then
+    say "Removing the bonnx package"
+    if [ "$(id -u)" -eq 0 ]; then apt-get remove -y bonnx; else sudo apt-get remove -y bonnx; fi
   fi
-  rm -rf "$APP_DIR" "$BIN_DIR/onnxviz" "$DESKTOP_DIR/onnxviz.desktop" "$ICON_DIR/onnxviz.png"
+  rm -rf "$APP_DIR" "$BIN_DIR/bonnx" "$DESKTOP_DIR/bonnx.desktop" "$ICON_DIR/bonnx.png"
   have update-desktop-database && update-desktop-database "$DESKTOP_DIR" >/dev/null 2>&1 || true
   say "Uninstalled."
   exit 0
@@ -93,7 +93,7 @@ if [ "$FORCE_APPIMAGE" = 0 ] && have apt-get && have dpkg && { [ "$(id -u)" -eq 
     DEB="$(fetch "$URL")"
     say "Installing with apt (may ask for your password)"
     sudo_cmd apt-get install -y "$DEB"
-    say "Installed. Run:  onnxviz model.onnx   (or find “ONNX Viz” in your app launcher)"
+    say "Installed. Run:  bonnx model.onnx   (or find “Bonnx” in your app launcher)"
     exit 0
   fi
   warn "No .deb found in this release; falling back to the AppImage."
@@ -107,24 +107,24 @@ mkdir -p "$BIN_DIR" "$APP_DIR" "$DESKTOP_DIR" "$ICON_DIR"
 chmod +x "$IMG"
 
 if [ -e /dev/fuse ] && { ldconfig -p 2>/dev/null | grep -q "libfuse\.so\.2"; }; then
-  mv -f "$IMG" "$APP_DIR/onnxviz.AppImage"
-  EXEC="$APP_DIR/onnxviz.AppImage"
+  mv -f "$IMG" "$APP_DIR/bonnx.AppImage"
+  EXEC="$APP_DIR/bonnx.AppImage"
 else
   warn "FUSE is not available; unpacking the AppImage instead (install libfuse2 to avoid this)."
   ( cd "$TMP" && "$IMG" --appimage-extract >/dev/null )
   rm -rf "$APP_DIR/app"; mv "$TMP/squashfs-root" "$APP_DIR/app"
   EXEC="$APP_DIR/app/AppRun"
 fi
-ln -sf "$EXEC" "$BIN_DIR/onnxviz"
+ln -sf "$EXEC" "$BIN_DIR/bonnx"
 
-curl -fsSL -o "$ICON_DIR/onnxviz.png" "https://raw.githubusercontent.com/$REPO/$TAG/build/icon.png" || warn "Could not fetch the icon."
-cat > "$DESKTOP_DIR/onnxviz.desktop" <<DESK
+curl -fsSL -o "$ICON_DIR/bonnx.png" "https://raw.githubusercontent.com/$REPO/$TAG/build/icon.png" || warn "Could not fetch the icon."
+cat > "$DESKTOP_DIR/bonnx.desktop" <<DESK
 [Desktop Entry]
 Type=Application
-Name=ONNX Viz
+Name=Bonnx
 Comment=Fast, offline ONNX model visualizer
 Exec=$EXEC %f
-Icon=onnxviz
+Icon=bonnx
 Terminal=false
 Categories=Development;
 MimeType=application/x-onnx;
@@ -133,4 +133,4 @@ have update-desktop-database && update-desktop-database "$DESKTOP_DIR" >/dev/nul
 
 say "Installed to $APP_DIR"
 case ":$PATH:" in *":$BIN_DIR:"*) ;; *) warn "$BIN_DIR is not on your PATH — add it, e.g.  export PATH=\"\$HOME/.local/bin:\$PATH\"" ;; esac
-say "Run:  onnxviz model.onnx   (or find “ONNX Viz” in your app launcher)"
+say "Run:  bonnx model.onnx   (or find “Bonnx” in your app launcher)"

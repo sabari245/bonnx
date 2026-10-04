@@ -2,7 +2,7 @@
 
 The model is injected as a classic script placed right after <head>, so it runs before the (deferred) app script:
 
-    <script>window.__ONNXVIZ_EMBED__={"name":"model.onnx","size":1234,"b64":"..."};</script>
+    <script>window.__BONNX_EMBED__={"name":"model.onnx","size":1234,"b64":"..."};</script>
 
 The viewer reads it on startup (`loadEmbedded()` in src/app/loader.ts), decodes it and deletes the global.
 External-data files are not embedded (use the server mode for models that keep weights in side files).
@@ -59,11 +59,11 @@ def write_embedded_html(source: ModelSource, out: str | os.PathLike, template: O
     if size > hard_limit:
         raise EmbedError(
             f"{source.name} is {mb:.0f} MB; browsers cannot hold an embedded model above ~{hard_limit // (1 << 20)} MB. "
-            "Serve it instead: `onnxviz MODEL` (no --out).")
+            "Serve it instead: `bonnx MODEL` (no --out).")
     if size > limit and not force:
         raise EmbedError(
             f"{source.name} is {mb:.0f} MB, above the {limit // (1 << 20)} MB embed limit. Pass --force to embed anyway "
-            "(the HTML will be ~33% larger than the model and slow to open), or serve it with `onnxviz MODEL`.")
+            "(the HTML will be ~33% larger than the model and slow to open), or serve it with `bonnx MODEL`.")
     tpl = find_single(template)
     if tpl is None:
         raise EmbedError(MISSING_SINGLE)
@@ -74,7 +74,7 @@ def write_embedded_html(source: ModelSource, out: str | os.PathLike, template: O
     try:
         with open(tmp, "w", encoding="utf-8", newline="") as f:
             f.write(html[:at])
-            f.write(f'<script>window.__ONNXVIZ_EMBED__={{"name":{_js_string(source.name)},"size":{size},"b64":"')
+            f.write(f'<script>window.__BONNX_EMBED__={{"name":{_js_string(source.name)},"size":{size},"b64":"')
             for chunk in source.iter_range(0, size, _B64_CHUNK):
                 f.write(base64.b64encode(chunk).decode("ascii"))
             f.write('"};</script>')

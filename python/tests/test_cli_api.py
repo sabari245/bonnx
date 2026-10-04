@@ -6,9 +6,9 @@ import unittest
 from pathlib import Path
 from unittest import mock
 
-import onnxviz
-from onnxviz import cli
-from onnxviz._sources import as_source
+import bonnx
+from bonnx import cli
+from bonnx._sources import as_source
 from support import SINGLE_INDEX, ServerCase, TmpCase, make_dist
 
 
@@ -33,13 +33,13 @@ class Cli(TmpCase):
     def test_version(self):
         rc, out, _ = run_cli("--version")
         self.assertEqual(rc, 0)
-        self.assertIn(onnxviz.__version__, out)
+        self.assertIn(bonnx.__version__, out)
 
     def test_embed_out(self):
         out = self.tmp / "v.html"
         rc, so, _ = run_cli(str(self.m), "--out", str(out), "--template", str(self.single))
         self.assertEqual(rc, 0, so)
-        self.assertIn("__ONNXVIZ_EMBED__", out.read_text())
+        self.assertIn("__BONNX_EMBED__", out.read_text())
 
     def test_embed_flag_defaults_to_stem_in_cwd(self):
         cwd = os.getcwd()
@@ -99,7 +99,7 @@ class Cli(TmpCase):
             started["url"] = self_.page_url()
             raise KeyboardInterrupt
 
-        with mock.patch("onnxviz.server.VizServer.serve_forever", fake_serve):
+        with mock.patch("bonnx.server.VizServer.serve_forever", fake_serve):
             rc, out, _ = run_cli(str(self.m), "--no-browser", "--port", "0", "--dist", str(dist))
         self.assertEqual(rc, 0)
         self.assertIn("viewer: http://127.0.0.1:", out)
@@ -118,20 +118,20 @@ class Api(ServerCase):
             as_source(12)
 
     def test_show_nonblocking_serves_bytes_from_memory(self):
-        srv = onnxviz.show(b"hello-model", port=0, block=False, open_browser=False, dist=self.dist, name="h.onnx")
+        srv = bonnx.show(b"hello-model", port=0, block=False, open_browser=False, dist=self.dist, name="h.onnx")
         self.addCleanup(srv.stop)
         self.assertEqual(self.get("/__model__/h.onnx", srv=srv)[2], b"hello-model")
 
     def test_show_without_build_raises(self):
-        with mock.patch("onnxviz.api.find_dist", return_value=None):
+        with mock.patch("bonnx.api.find_dist", return_value=None):
             with self.assertRaises(FileNotFoundError):
-                onnxviz.show(b"x", block=False, open_browser=False)
+                bonnx.show(b"x", block=False, open_browser=False)
 
     def test_save_html(self):
         single = self.tmp / "single.html"
         single.write_text(SINGLE_INDEX)
-        out = onnxviz.save_html(b"bytes", self.tmp / "o.html", template=single)
-        self.assertIn("__ONNXVIZ_EMBED__", Path(out).read_text())
+        out = bonnx.save_html(b"bytes", self.tmp / "o.html", template=single)
+        self.assertIn("__BONNX_EMBED__", Path(out).read_text())
 
     def test_modelproto_is_serialised_in_memory(self):
         class FakeProto:  # stands in for onnx.ModelProto
@@ -150,12 +150,12 @@ class Api(ServerCase):
                               [helper.make_tensor_value_info("x", TensorProto.FLOAT, [1])],
                               [helper.make_tensor_value_info("y", TensorProto.FLOAT, [1])])
         m = helper.make_model(g)
-        srv = onnxviz.show(m, port=0, block=False, open_browser=False, dist=self.dist)
+        srv = bonnx.show(m, port=0, block=False, open_browser=False, dist=self.dist)
         self.addCleanup(srv.stop)
         body = self.get("/__model__/model.onnx", srv=srv)[2]
         self.assertEqual(onnx.load_from_string(body).graph.name, "g")
-        out = onnxviz.save_html(m, self.tmp / "m.html", template=self._single())
-        self.assertIn("__ONNXVIZ_EMBED__", Path(out).read_text())
+        out = bonnx.save_html(m, self.tmp / "m.html", template=self._single())
+        self.assertIn("__BONNX_EMBED__", Path(out).read_text())
 
     def _single(self):
         p = self.tmp / "single.html"
@@ -163,8 +163,8 @@ class Api(ServerCase):
         return p
 
     def test_stop_all(self):
-        onnxviz.show(b"x", port=0, block=False, open_browser=False, dist=self.dist)
-        onnxviz.stop_all()
+        bonnx.show(b"x", port=0, block=False, open_browser=False, dist=self.dist)
+        bonnx.stop_all()
 
 
 if __name__ == "__main__":

@@ -3,7 +3,7 @@ requires = ["setuptools>=64"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "onnxviz"
+name = "bonnx"
 version = "1.0.0"
 description = "View ONNX models in the browser: local server or one self-contained HTML file"
 requires-python = ">=3.9"
@@ -13,10 +13,10 @@ dependencies = []  # standard library only; `onnx` is imported lazily when a Mod
 notebook = ["ipython"]
 
 [project.scripts]
-onnxviz = "onnxviz.cli:main"
+bonnx = "bonnx.cli:main"
 
 [tool.setuptools]
-packages = ["onnxviz"]
+packages = ["bonnx"]
 
 [tool.setuptools.package-data]
-onnxviz = ["web/**/*", "web_single/*"]
+bonnx = ["web/**/*", "web_single/*"]

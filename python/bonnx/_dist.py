@@ -5,7 +5,7 @@ from pathlib import Path
 from typing import Optional
 
 PKG = Path(__file__).resolve().parent
-REPO = PKG.parent.parent  # python/onnxviz -> python -> repo root
+REPO = PKG.parent.parent  # python/bonnx -> python -> repo root
 
 
 def _ok(p: Path) -> bool:

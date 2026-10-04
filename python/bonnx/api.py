@@ -62,7 +62,7 @@ def display(model: Any, width: Any = "100%", height: Any = 600, name: Optional[s
     try:
         from IPython.display import IFrame
     except ImportError as e:  # pragma: no cover
-        raise ImportError("onnxviz.display() needs IPython (pip install ipython)") from e
+        raise ImportError("bonnx.display() needs IPython (pip install ipython)") from e
     srv = show(model, port=0, block=False, open_browser=False, name=name, dist=dist)
     return IFrame(src=srv.page_url(), width=width, height=height)
 

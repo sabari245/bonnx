@@ -1,5 +1,5 @@
 ir_version: 10
-producer_name: "onnxviz-tests"
+producer_name: "bonnx-tests"
 producer_version: "1.0"
 graph {
   node {

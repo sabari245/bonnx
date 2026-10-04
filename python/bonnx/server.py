@@ -218,7 +218,7 @@ class VizServer:
         self.httpd.serve_forever(poll_interval=0.2)
 
     def start_background(self) -> "VizServer":
-        self._thread = threading.Thread(target=self.serve_forever, name="onnxviz-http", daemon=True)
+        self._thread = threading.Thread(target=self.serve_forever, name="bonnx-http", daemon=True)
         self._thread.start()
         return self
 
@@ -290,7 +290,7 @@ class VizServer:
 
 class _Handler(BaseHTTPRequestHandler):
     protocol_version = "HTTP/1.1"
-    server_version = "onnxviz"
+    server_version = "bonnx"
     sys_version = ""
     timeout = 120
 
@@ -340,7 +340,7 @@ class _Handler(BaseHTTPRequestHandler):
 
     def _static(self, app: VizServer, path: str, head: bool) -> None:
         if app.dist is None:
-            return self._text(503, "onnxviz: the web app is not built (run `make build`).", head)
+            return self._text(503, "bonnx: the web app is not built (run `make build`).", head)
         p = safe_join(app.dist, path)
         if p is not None and p.is_dir():
             p = safe_join(app.dist, path.rstrip("/") + "/index.html")

@@ -1,4 +1,4 @@
-# onnxviz — web app (bun + vite) and the Python launcher.   `make help` lists targets.
+# bonnx — web app (bun + vite) and the Python launcher.   `make help` lists targets.
 
 BUN    ?= bun
 PY     ?= $(if $(wildcard .venv/bin/python),.venv/bin/python,python3)
@@ -19,7 +19,7 @@ help:
 	@echo "  make build           production build -> dist/"
 	@echo "  make single          single-file build -> dist-single/index.html"
 	@echo "  make test            JS tests (vitest) and Python tests (unittest)"
-	@echo "  make package         copy the builds into python/onnxviz/ so a pip install is self-contained"
+	@echo "  make package         copy the builds into python/bonnx/ so a pip install is self-contained"
 	@echo "  make serve MODEL=m.onnx [PORT=8080]   serve a model on localhost (builds the app first if needed)"
 	@echo "  make viz   MODEL=m.onnx [OUT=m.html]  one self-contained HTML file (replaces the old scripts/model_viz.py)"
 
@@ -53,19 +53,19 @@ test-py:
 	$(PYPATH) $(PY) -m unittest discover -s python/tests -t python/tests
 
 package: dist/index.html dist-single/index.html
-	rm -rf python/onnxviz/web python/onnxviz/web_single
-	mkdir -p python/onnxviz/web_single
-	cp -r dist python/onnxviz/web
-	cp dist-single/index.html python/onnxviz/web_single/index.html
-	@echo "bundled web app into python/onnxviz/ (pip install ./python now ships it)"
+	rm -rf python/bonnx/web python/bonnx/web_single
+	mkdir -p python/bonnx/web_single
+	cp -r dist python/bonnx/web
+	cp dist-single/index.html python/bonnx/web_single/index.html
+	@echo "bundled web app into python/bonnx/ (pip install ./python now ships it)"
 
 serve: dist/index.html
 	@test -n "$(MODEL)" || { echo "usage: make serve MODEL=path/to/model.onnx"; exit 2; }
-	$(PYPATH) $(PY) -m onnxviz "$(MODEL)" --port $(PORT)
+	$(PYPATH) $(PY) -m bonnx "$(MODEL)" --port $(PORT)
 
 viz: dist-single/index.html
 	@test -n "$(MODEL)" || { echo "usage: make viz MODEL=path/to/model.onnx [OUT=out.html]"; exit 2; }
-	$(PYPATH) $(PY) -m onnxviz "$(MODEL)" --out "$(OUT)"
+	$(PYPATH) $(PY) -m bonnx "$(MODEL)" --out "$(OUT)"
 
 clean:
-	rm -rf dist dist-single python/onnxviz/web python/onnxviz/web_single
+	rm -rf dist dist-single python/bonnx/web python/bonnx/web_single

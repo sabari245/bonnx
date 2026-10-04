@@ -3,8 +3,8 @@ import os
 import socket
 import unittest
 
-from onnxviz._sources import ModelSource, unique_names
-from onnxviz.server import RangeError, VizServer, find_referenced, parse_range, safe_join
+from bonnx._sources import ModelSource, unique_names
+from bonnx.server import RangeError, VizServer, find_referenced, parse_range, safe_join
 from support import ServerCase, TmpCase
 
 

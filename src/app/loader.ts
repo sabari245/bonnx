@@ -13,13 +13,13 @@ const MODEL_EXT = /\.(onnx|ort|pb|prototxt|pbtxt|json|txt|onnx\.txt)$/i;
 
 declare global {
   interface Window {
-    onnxvizDesktop?: {
+    bonnxDesktop?: {
       ready(): Promise<string | null>;
       readModel(path: string): Promise<{ name: string; data: Uint8Array; external: Record<string, Uint8Array> }>;
       pickModel(): Promise<string | null>;
       onOpenPath(cb: (path: string) => void): void;
     };
-    __ONNXVIZ_EMBED__?: { name: string; b64: string };
+    __BONNX_EMBED__?: { name: string; b64: string };
   }
 }
 
@@ -153,15 +153,15 @@ export async function loadFromUrl(url: string, onProgress?: Progress, externalMa
   return { name, data, external };
 }
 
-/* ───────── embedded model (python `onnxviz --out x.html`) ───────── */
+/* ───────── embedded model (python `bonnx --out x.html`) ───────── */
 
 export function loadEmbedded(): LoadedInput | null {
-  const e = window.__ONNXVIZ_EMBED__;
+  const e = window.__BONNX_EMBED__;
   if (!e) return null;
   const bin = atob(e.b64);
   const bytes = new Uint8Array(bin.length);
   for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
-  delete window.__ONNXVIZ_EMBED__; // let the big string be collected
+  delete window.__BONNX_EMBED__; // let the big string be collected
   const data: ArrayBuffer | string = TEXT_EXT.test(e.name) ? new TextDecoder().decode(bytes) : bytes.buffer;
   return { name: e.name, data, external: {} };
 }
@@ -171,7 +171,7 @@ export function loadEmbedded(): LoadedInput | null {
 const toBuf = (u: Uint8Array): ArrayBuffer => (u.byteOffset === 0 && u.byteLength === u.buffer.byteLength ? (u.buffer as ArrayBuffer) : (u.buffer.slice(u.byteOffset, u.byteOffset + u.byteLength) as ArrayBuffer));
 
 export async function loadFromDesktopPath(path: string): Promise<LoadedInput> {
-  const m = await window.onnxvizDesktop!.readModel(path);
+  const m = await window.bonnxDesktop!.readModel(path);
   const { data } = await toInput(m.name, toBuf(m.data));
   const external: Record<string, ArrayBuffer> = {};
   for (const [k, v] of Object.entries(m.external)) external[k] = toBuf(v);

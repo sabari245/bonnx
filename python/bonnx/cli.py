@@ -1,4 +1,4 @@
-"""Command line: `onnxviz model.onnx` (serve) and `onnxviz model.onnx --out view.html` (embed)."""
+"""Command line: `bonnx model.onnx` (serve) and `bonnx model.onnx --out view.html` (embed)."""
 from __future__ import annotations
 
 import argparse
@@ -16,7 +16,7 @@ from .server import VizServer
 
 
 def _err(msg: str) -> int:
-    print(f"onnxviz: error: {msg}", file=sys.stderr)
+    print(f"bonnx: error: {msg}", file=sys.stderr)
     return 2
 
 
@@ -53,8 +53,8 @@ def collect_models(paths: Sequence[str]) -> list[ModelSource]:
 
 def build_parser() -> argparse.ArgumentParser:
     ap = argparse.ArgumentParser(
-        prog="onnxviz", description="View ONNX models in the browser: serve on localhost, or write one self-contained HTML file.",
-        epilog="examples:\n  onnxviz model.onnx\n  onnxviz models/ --port 9000 --no-browser\n  onnxviz model.onnx --out view.html",
+        prog="bonnx", description="View ONNX models in the browser: serve on localhost, or write one self-contained HTML file.",
+        epilog="examples:\n  bonnx model.onnx\n  bonnx models/ --port 9000 --no-browser\n  bonnx model.onnx --out view.html",
         formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("paths", nargs="*", metavar="MODEL", help=".onnx / .onnx.prototxt / .json file(s) or directories; none = open the empty viewer")
     ap.add_argument("--port", type=int, default=8080, help="port to serve on (default 8080; the next free one is used if busy)")
@@ -66,7 +66,7 @@ def build_parser() -> argparse.ArgumentParser:
     ap.add_argument("--template", metavar="FILE", help="single-file web build to embed into (default: bundled, then <repo>/dist-single/index.html)")
     ap.add_argument("--force", action="store_true", help="embed models above the 200 MB limit")
     ap.add_argument("-v", "--verbose", action="store_true", help="log every HTTP request")
-    ap.add_argument("--version", action="version", version=f"onnxviz {__version__}")
+    ap.add_argument("--version", action="version", version=f"bonnx {__version__}")
     return ap
 
 
@@ -99,7 +99,7 @@ def _serve(args: argparse.Namespace, sources: list[ModelSource]) -> int:
     except OSError as e:
         return _err(f"cannot listen on {args.host}:{args.port}: {e}")
     url = srv.page_url()
-    print(f"onnxviz {__version__}", flush=True)
+    print(f"bonnx {__version__}", flush=True)
     for s in sources:
         print(f"  model:  {s.path or s.name} ({s.size / 1e6:.1f} MB)", flush=True)
     if srv.port_changed:

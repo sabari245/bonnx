@@ -1,0 +1,14 @@
+node_modules
+dist
+dist-single
+.venv
+*.pyc
+__pycache__
+release
+models/
+# legacy build-time viewer from the internal SDK + notes (kept local, not published)
+scripts/model_viz.*
+scripts/layer_io_compare.py
+experiments/
+handoff.md
+resnet18_viz.html

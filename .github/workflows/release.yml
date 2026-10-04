@@ -1,0 +1,60 @@
+name: Release
+
+# Runs only when a version tag (v1.2.3) is pushed, and only if that tag points at a commit on main.
+on:
+  push:
+    tags: ["v[0-9]+.[0-9]+.[0-9]+*"]
+
+permissions:
+  contents: write
+
+jobs:
+  guard:
+    name: Tag must be on main
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+      - name: Verify tag commit is reachable from origin/main
+        run: |
+          git fetch origin main
+          if ! git merge-base --is-ancestor "$GITHUB_SHA" origin/main; then
+            echo "::error::Tag $GITHUB_REF_NAME is not on main; refusing to release."
+            exit 1
+          fi
+
+  build:
+    name: Test & build Linux packages
+    needs: guard
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - run: bun install --frozen-lockfile
+      - name: Fetch test model (not stored in the repo)
+        run: |
+          mkdir -p models
+          curl -fL --retry 3 -o models/resnet18-v2-7.onnx \
+            https://media.githubusercontent.com/media/onnx/models/main/validated/vision/classification/resnet/model/resnet18-v2-7.onnx
+      - run: bun run typecheck
+      - run: bun run test
+      - name: Build desktop packages
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          SINGLE=1 bunx vite build --outDir dist-single
+          bunx electron-builder --linux -c.extraMetadata.version="$VERSION" --publish never
+      - name: Build standalone single-file viewer
+        run: cp dist-single/index.html "release/onnxviz-${GITHUB_REF_NAME#v}-standalone.html"
+      - name: Checksums
+        working-directory: release
+        run: sha256sum onnxviz-* > SHA256SUMS.txt
+      - uses: softprops/action-gh-release@v2
+        with:
+          generate_release_notes: true
+          prerelease: ${{ contains(github.ref_name, '-') }}
+          files: |
+            release/*.AppImage
+            release/*.deb
+            release/*.tar.gz
+            release/*-standalone.html
+            release/SHA256SUMS.txt

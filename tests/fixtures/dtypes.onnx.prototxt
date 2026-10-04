@@ -1,0 +1,136 @@
+ir_version: 10
+producer_name: "onnxviz-tests"
+producer_version: "1.0"
+graph {
+  node {
+    input: "x"
+    output: "y"
+    name: "id"
+    op_type: "Identity"
+  }
+  name: "dtypes_model"
+  initializer {
+    dims: 4
+    data_type: 10
+    int32_data: 15360
+    int32_data: 49152
+    int32_data: 14336
+    int32_data: 31743
+    name: "f16"
+  }
+  initializer {
+    dims: 3
+    data_type: 16
+    int32_data: 16256
+    int32_data: 49184
+    int32_data: 16448
+    name: "bf16"
+  }
+  initializer {
+    dims: 4
+    data_type: 22
+    int32_data: 248
+    int32_data: 112
+    name: "i4"
+  }
+  initializer {
+    dims: 3
+    data_type: 21
+    int32_data: 112
+    int32_data: 15
+    name: "u4"
+  }
+  initializer {
+    dims: 3
+    data_type: 9
+    int32_data: 1
+    int32_data: 0
+    int32_data: 1
+    name: "flag"
+  }
+  initializer {
+    dims: 2
+    data_type: 8
+    string_data: "alpha"
+    string_data: "beta"
+    name: "names"
+  }
+  initializer {
+    dims: 3
+    data_type: 17
+    int32_data: 56
+    int32_data: 192
+    int32_data: 48
+    name: "f8"
+  }
+  initializer {
+    dims: 3
+    data_type: 7
+    int64_data: 1
+    int64_data: -2
+    int64_data: 1099511627776
+    name: "i64"
+  }
+  initializer {
+    dims: 1
+    data_type: 7
+    int64_data: 4611686018427387904
+    name: "big"
+  }
+  initializer {
+    dims: 2
+    data_type: 12
+    name: "u32"
+    uint64_data: 7
+    uint64_data: 4000000000
+  }
+  initializer {
+    dims: 2
+    data_type: 14
+    name: "c64"
+    raw_data: "\000\000\200?\000\000\000@\000\000@@\000\000\200@"
+  }
+  initializer {
+    dims: 2
+    data_type: 10
+    name: "f16_raw"
+    raw_data: "\000>\000\301"
+  }
+  initializer {
+    dims: 2
+    dims: 3
+    data_type: 6
+    name: "i32_raw"
+    raw_data: "\001\000\000\000\002\000\000\000\003\000\000\000\004\000\000\000\005\000\000\000\006\000\000\000"
+  }
+  input {
+    name: "x"
+    type {
+      tensor_type {
+        elem_type: 1
+        shape {
+          dim {
+            dim_value: 1
+          }
+        }
+      }
+    }
+  }
+  output {
+    name: "y"
+    type {
+      tensor_type {
+        elem_type: 1
+        shape {
+          dim {
+            dim_value: 1
+          }
+        }
+      }
+    }
+  }
+}
+opset_import {
+  domain: ""
+  version: 21
+}

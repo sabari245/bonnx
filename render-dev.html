@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>render dev harness</title>
+<style>
+  :root { color-scheme: light; font: 13px system-ui, sans-serif; }
+  :root.dark { color-scheme: dark; }
+  html, body { height: 100%; margin: 0; overflow: hidden; background: #fff; color: #18181b; }
+  html.dark, html.dark body { background: #18181b; color: #e4e4e7; }
+  #bar { position: fixed; z-index: 5; top: 8px; left: 8px; right: 8px; display: flex; gap: 6px; flex-wrap: wrap; align-items: center; pointer-events: none; }
+  #bar > * { pointer-events: auto; }
+  #bar button, #bar select, #bar input { font: inherit; padding: 3px 8px; border-radius: 6px; border: 1px solid #a1a1aa88; background: color-mix(in oklab, canvas 92%, transparent); color: inherit; }
+  #bar button:hover { background: color-mix(in oklab, canvas 80%, #8884); }
+  #stage { position: fixed; inset: 0; }
+  #mini { position: fixed; right: 10px; top: 52px; z-index: 4; border: 1px solid #a1a1aa88; border-radius: 6px; overflow: hidden; background: canvas; }
+  #stats { position: fixed; left: 8px; bottom: 8px; z-index: 5; font: 11px ui-monospace, monospace; padding: 4px 8px; border-radius: 6px; background: color-mix(in oklab, canvas 88%, transparent); border: 1px solid #a1a1aa88; white-space: pre; }
+  #tip { position: fixed; z-index: 6; pointer-events: none; padding: 4px 8px; border-radius: 6px; background: canvas; border: 1px solid #a1a1aa88; display: none; max-width: 420px; }
+  #crumb { display: flex; gap: 4px; align-items: center; }
+</style>
+</head>
+<body>
+<div id="stage"></div>
+<div id="mini"></div>
+<div id="bar"></div>
+<div id="stats"></div>
+<div id="tip"></div>
+<script type="module" src="/src/render/dev/main.ts"></script>
+</body>
+</html>

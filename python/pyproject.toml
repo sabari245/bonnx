@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "onnxviz"
+version = "1.0.0"
+description = "View ONNX models in the browser: local server or one self-contained HTML file"
+requires-python = ">=3.9"
+dependencies = []  # standard library only; `onnx` is imported lazily when a ModelProto is passed
+
+[project.optional-dependencies]
+notebook = ["ipython"]
+
+[project.scripts]
+onnxviz = "onnxviz.cli:main"
+
+[tool.setuptools]
+packages = ["onnxviz"]
+
+[tool.setuptools.package-data]
+onnxviz = ["web/**/*", "web_single/*"]

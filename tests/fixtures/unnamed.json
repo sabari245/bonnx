@@ -1,0 +1,209 @@
+{
+  "irVersion": "10",
+  "producerName": "onnxviz-tests",
+  "producerVersion": "1.0",
+  "graph": {
+    "node": [
+      {
+        "input": [
+          "x",
+          "w",
+          "b"
+        ],
+        "output": [
+          "c"
+        ],
+        "opType": "Conv",
+        "attribute": [
+          {
+            "name": "kernel_shape",
+            "ints": [
+              "3",
+              "3"
+            ],
+            "type": "INTS"
+          },
+          {
+            "name": "pads",
+            "ints": [
+              "1",
+              "1",
+              "1",
+              "1"
+            ],
+            "type": "INTS"
+          }
+        ]
+      },
+      {
+        "input": [
+          "c"
+        ],
+        "output": [
+          "r"
+        ],
+        "opType": "Relu"
+      },
+      {
+        "input": [
+          "r"
+        ],
+        "output": [
+          "p"
+        ],
+        "opType": "MaxPool",
+        "attribute": [
+          {
+            "name": "kernel_shape",
+            "ints": [
+              "2",
+              "2"
+            ],
+            "type": "INTS"
+          },
+          {
+            "name": "strides",
+            "ints": [
+              "2",
+              "2"
+            ],
+            "type": "INTS"
+          }
+        ]
+      },
+      {
+        "input": [
+          "p"
+        ],
+        "output": [
+          "f"
+        ],
+        "opType": "Flatten"
+      },
+      {
+        "input": [
+          "f",
+          "fw"
+        ],
+        "output": [
+          "y"
+        ],
+        "opType": "Gemm",
+        "attribute": [
+          {
+            "name": "transB",
+            "i": "1",
+            "type": "INT"
+          }
+        ]
+      }
+    ],
+    "name": "unnamed_model",
+    "initializer": [
+      {
+        "dims": [
+          "4",
+          "3",
+          "3",
+          "3"
+        ],
+        "dataType": 1,
+        "name": "w",
+        "rawData": "bL8APn9GB7698iM/39XWPaEhCb/9Irk+eemmP+Zzcj/+JzS/Vfmhv+qOH79uRSk9Ts0UwOwKYL4Dep+/4HU7v49UC78Y8qG+PcHSPhRxhT+XngO+RuiuPzNKKr8h+bM+0klnP4WJwD34VT6/MvZrvwpb6r7VemE+KzuBvx8yVr7iCyO+23QKP5rPWz5p87U+UGEnv3C5BL6eskg/wCi/Pw8pob9ByME/pUWsPwYESD+6Zoc+frqgvmyguj+/6fo/+ZvmP1JVqD+R+rY+L6qav/rzkbu+Dig/B+mkv3BNyj4YF9w+2y8yPy2Rl79XZSm/cXTfvhK8lb+bo94/A+j9vrVuqD6fY4S+Pa/KP5cBqT9mIyI/TgYNwFUcVT0PBi8/0IGAPygvHr+rN+k/4gOpv+dZKb9wX28/fu1IPTMnAEAtC0E+AhkivwFQwb6tqou/Boujv6ZiIT9IxxQ/GrSlP9gtQb+sNNg/eySTvjaGyT8blt2+okg8v73Hfz6oBoQ/st8kPjjlFb8Wrau/BGWzv9OvAD/VXX0/1zwovsqEib+xf18/8+Ojv6GLNr8H+x4/"
+      },
+      {
+        "dims": [
+          "4"
+        ],
+        "dataType": 1,
+        "name": "b",
+        "rawData": "AAAAAAAAAAAAAAAAAAAAAA=="
+      },
+      {
+        "dims": [
+          "5",
+          "64"
+        ],
+        "dataType": 1,
+        "name": "fw",
+        "rawData": "AACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AACAPwAAgD8="
+      }
+    ],
+    "input": [
+      {
+        "name": "x",
+        "type": {
+          "tensorType": {
+            "elemType": 1,
+            "shape": {
+              "dim": [
+                {
+                  "dimValue": "1"
+                },
+                {
+                  "dimValue": "3"
+                },
+                {
+                  "dimValue": "8"
+                },
+                {
+                  "dimValue": "8"
+                }
+              ]
+            }
+          }
+        }
+      },
+      {
+        "name": "w",
+        "type": {
+          "tensorType": {
+            "elemType": 1,
+            "shape": {
+              "dim": [
+                {
+                  "dimValue": "4"
+                },
+                {
+                  "dimValue": "3"
+                },
+                {
+                  "dimValue": "3"
+                },
+                {
+                  "dimValue": "3"
+                }
+              ]
+            }
+          }
+        }
+      }
+    ],
+    "output": [
+      {
+        "name": "y",
+        "type": {
+          "tensorType": {
+            "elemType": 1,
+            "shape": {
+              "dim": [
+                {
+                  "dimValue": "1"
+                },
+                {
+                  "dimValue": "5"
+                }
+              ]
+            }
+          }
+        }
+      }
+    ]
+  },
+  "opsetImport": [
+    {
+      "domain": "",
+      "version": "21"
+    }
+  ]
+}

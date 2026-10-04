@@ -1,0 +1,18 @@
+name: CI
+on:
+  pull_request:
+  push:
+    branches: [main]
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - run: bun install --frozen-lockfile
+      - run: |
+          mkdir -p models
+          curl -fL --retry 3 -o models/resnet18-v2-7.onnx https://media.githubusercontent.com/media/onnx/models/main/validated/vision/classification/resnet/model/resnet18-v2-7.onnx
+      - run: bun run typecheck
+      - run: bun run test
+      - run: bun run build

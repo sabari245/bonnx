@@ -1,0 +1,112 @@
+ir_version: 10
+producer_name: "onnxviz-tests"
+producer_version: "1.0"
+graph {
+  node {
+    input: "cond"
+    output: "y"
+    name: "if0"
+    op_type: "If"
+    attribute {
+      name: "else_branch"
+      g {
+        node {
+          input: "x"
+          input: "w"
+          output: "e"
+          name: "else_sub"
+          op_type: "Sub"
+        }
+        name: "else_branch"
+        output {
+          name: "e"
+          type {
+            tensor_type {
+              elem_type: 1
+              shape {
+                dim {
+                  dim_value: 2
+                }
+              }
+            }
+          }
+        }
+      }
+      type: GRAPH
+    }
+    attribute {
+      name: "then_branch"
+      g {
+        node {
+          input: "x"
+          input: "w"
+          output: "t"
+          name: "then_add"
+          op_type: "Add"
+        }
+        name: "then_branch"
+        output {
+          name: "t"
+          type {
+            tensor_type {
+              elem_type: 1
+              shape {
+                dim {
+                  dim_value: 2
+                }
+              }
+            }
+          }
+        }
+      }
+      type: GRAPH
+    }
+  }
+  name: "if_model"
+  initializer {
+    dims: 2
+    data_type: 1
+    name: "w"
+    raw_data: "\000\000\200?\000\000\000@"
+  }
+  input {
+    name: "x"
+    type {
+      tensor_type {
+        elem_type: 1
+        shape {
+          dim {
+            dim_value: 2
+          }
+        }
+      }
+    }
+  }
+  input {
+    name: "cond"
+    type {
+      tensor_type {
+        elem_type: 9
+        shape {
+        }
+      }
+    }
+  }
+  output {
+    name: "y"
+    type {
+      tensor_type {
+        elem_type: 1
+        shape {
+          dim {
+            dim_value: 2
+          }
+        }
+      }
+    }
+  }
+}
+opset_import {
+  domain: ""
+  version: 21
+}
